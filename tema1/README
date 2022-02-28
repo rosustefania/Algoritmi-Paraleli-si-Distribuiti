@@ -1,0 +1,49 @@
+# Rosu Adriana-Stefania 335CC
+# Homework 1 Parallel and Distributed Algorithms 
+# Parallelizing a Genetic Algorithm 
+
+
+## About
+        This homework consists in implementing a parallel genetic algorithm that
+    solves the Knapsack 0-1 Problem by using selection, crossover and mutation.
+
+## Implemention
+        The algorithm start from the initial generation that has N (N is the 
+    number of objects) individuals containing only one object in the backpack 
+    (they will have only one chromosome set to 1).
+        The algorithm will run for a given k number of generation to keep the
+    determination of the algorithm's running.
+        For parallelizing the algorithm we create a given number of threads which
+    will run the parallel function. Given data is transmitted using my_arg structure.
+        For every generation of the k, the algorithm is following the next steps:
+            - computes every individual fitness usign a parallel function; every 
+        thread will compute fitness for a calculated number of individuals based on 
+        its thread id (from start to end); uses a barrier to be sure all the fitnesses 
+        will be calculated before the next step;
+            - sorts the current generation by fitness: first run a parallel quick 
+        sort that will give us P (P = number of threads) sorted parts, then slipts those
+        parts, waits for these to be completed and merges them sequentially so the current 
+        generation is sorted completely;
+            - makes the parallel selection that will keep first 30% children (every 
+        thread will perform selection from start to end) and waits for all threads;
+            - makes the parallel mutation for the first 20% children with the first 
+        version of bit string mutation (every thread will perform mutation from start to 
+        end) and waits for all threads;
+            - makes the parallel mutation for the next 20% children with the second 
+        version of bit string mutation (every thread will perform mutation from start to 
+        end) and waits for all threads;
+            - makes the parallel crossover for the first 30% parents with one-point
+        crossover and waits for all threads;
+            - after applying selection, mutation and crossover sequentially switches to 
+        new generation;
+            - sequentially prints the best fitness every five generations;
+        After all k generation, the program computes fitness and sorts the current
+    generation one more time, printing the best fitness.
+
+## Parallel Implemention vs Sequentially Implementation
+    - parallelized quick sort;
+    - parallelized compute fitness function;
+    - parallelized selection;
+    - parallelized mutation;
+    - parallelized crossover;
+
