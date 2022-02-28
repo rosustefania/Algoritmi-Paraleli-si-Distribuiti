@@ -1,0 +1,43 @@
+# Rosu Adriana-Stefania 335CC
+# Homework 3 Parallel and Distributed Algorithms 
+# Collaborative computations in distributed systems
+
+## About
+    This homework consists in a distributed program ın MPI ın which 
+processes are grouped ın a topology of three clusters, each one having a coordinator 
+and a random number of workers.
+
+## Implemention
+
+### Topology establishment    
+    After each cluster reads from its input file its number of 
+workers and their number, they will store the workers in a 
+topology matrix that will be known by all processes.
+    First, we establish the connections between clusters, each 
+one of them sending its number of workers and their numbers to
+the other two clusters and receiving them from the other two.
+    Second, each clusters sends to its workers their number, so
+the workers know who coordinate them. Then they send every cluster 
+dimension and the topology to every worker. 
+    Workers receive the tolopogy so now the topology is establish.
+
+    Note: Every process prints the topology once he knows it.
+
+ ### Calculations
+    After establishing the topology, the process no.0 reads the
+array dimension and generates it. We calculate the number of 
+iterations per worker in a balanced way a store them in an array.
+    By knowing the each cluster's number of workers we know the number 
+of iterations per cluster and store it in another array.
+    The process no.0 directly sends the parts of the array correspondent
+to its workers, the workers receive them, double every element from them
+and send them back.
+    For the second and the third cluster (no.1 and no.2), process no.0 
+sends the number of iterations for every worker and then the part of the 
+array correspondent to that cluster. Then each process correspondent to 
+the other two clusters sends to its workers their part of the array based
+on the number of iterations per worker. Then each worker receives it,
+modifies it and sends it back to its cluster. After each cluster receives
+back their part modifed, it sends it back to the first cluster (no.0).
+    After receiving the entire array back, the process no.0 prints the
+result.
